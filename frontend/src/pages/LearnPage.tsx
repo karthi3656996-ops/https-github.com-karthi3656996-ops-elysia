@@ -28,7 +28,7 @@ const categories: { key: Category; label: string }[] = [
   { key: 'alphabet', label: 'Alphabet' },
 ]
 
-const difficultyColor = { easy: 'text-green-400 bg-green-400/10', medium: 'text-yellow-400 bg-yellow-400/10', hard: 'text-red-400 bg-red-400/10' }
+const difficultyColor = { easy: 'text-green-400 bg-green-400/10', medium: 'bg-yellow-400/10', hard: 'text-red-400 bg-red-400/10' }
 
 export default function LearnPage() {
   const [search, setSearch] = useState('')
@@ -41,18 +41,19 @@ export default function LearnPage() {
   )
 
   return (
-    <div className="min-h-screen pt-20 pb-10 px-4">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen pt-20 pb-10 px-4 relative overflow-hidden">
+      <div className="glow-orb w-96 h-96 top-0 right-[-80px] opacity-15" style={{ background: 'radial-gradient(circle, rgba(255,122,24,0.5), transparent 70%)' }} />
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-9 h-9 rounded-xl bg-purple-600/20 flex items-center justify-center">
-              <RiBookOpenLine size={18} className="text-purple-400" />
+            <div className="w-10 h-10 rounded-xl icon-sunset flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(255,122,24,0.4)' }}>
+              <RiBookOpenLine size={18} className="text-white" />
             </div>
             <h1 className="font-display font-bold text-3xl text-white">
               Learn <span className="text-gradient">Sign Language</span>
             </h1>
           </div>
-          <p className="text-gray-500 ml-12">Master common signs with interactive guides and tips</p>
+          <p className="ml-13" style={{ color: '#C9C9D6' }}>Master common signs with interactive guides and tips</p>
         </motion.div>
 
         {/* Search + Filters */}
@@ -61,11 +62,12 @@ export default function LearnPage() {
             <RiSearchLine size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
             <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search gestures…" className="input-neon pl-9" />
           </div>
-          <div className="flex items-center gap-1 p-1 bg-white/5 rounded-xl border border-white/10 overflow-x-auto">
-            <RiFilter3Line size={14} className="text-gray-500 ml-2 flex-shrink-0" />
+          <div className="flex items-center gap-1 p-1 rounded-xl overflow-x-auto" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <RiFilter3Line size={14} className="ml-2 flex-shrink-0" style={{ color: 'rgba(201,201,214,0.5)' }} />
             {categories.map(({ key, label }) => (
               <button key={key} onClick={() => setCategory(key)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap flex-shrink-0 ${category === key ? 'bg-purple-600/30 text-purple-300 border border-purple-500/30' : 'text-gray-500 hover:text-gray-300'}`}>
+                className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap flex-shrink-0"
+                style={{ background: category === key ? 'rgba(255,122,24,0.18)' : 'transparent', color: category === key ? '#FF9A50' : '#C9C9D6', border: category === key ? '1px solid rgba(255,122,24,0.35)' : '1px solid transparent' }}>
                 {label}
               </button>
             ))}
@@ -77,17 +79,20 @@ export default function LearnPage() {
           <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
             {filtered.map((g, i) => (
               <motion.div key={g.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
-                onClick={() => setSelected(g)} className={`glass-card-hover p-4 cursor-pointer ${selected?.id === g.id ? 'border-purple-500/50 bg-purple-500/10' : ''}`}>
+                onClick={() => setSelected(g)}
+                className="glass-card-hover p-4 cursor-pointer"
+                style={selected?.id === g.id ? { borderColor: 'rgba(255,122,24,0.5)', background: 'rgba(255,122,24,0.08)' } : {}}>
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-2xl flex-shrink-0">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
+                    style={{ background: 'rgba(255,122,24,0.1)', border: '1px solid rgba(255,122,24,0.2)' }}>
                     {g.emoji}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <p className="font-display font-semibold text-white">{g.name}</p>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium capitalize ${difficultyColor[g.difficulty as keyof typeof difficultyColor]}`}>{g.difficulty}</span>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium capitalize ${difficultyColor[g.difficulty as keyof typeof difficultyColor]}`} style={g.difficulty === 'medium' ? { color: '#FF7A18' } : {}}>{g.difficulty}</span>
                     </div>
-                    <p className="text-xs text-gray-500 mt-0.5 truncate">{g.desc}</p>
+                    <p className="text-xs mt-0.5 truncate" style={{ color: 'rgba(201,201,214,0.6)' }}>{g.desc}</p>
                   </div>
                 </div>
               </motion.div>
@@ -110,17 +115,17 @@ export default function LearnPage() {
                   <span className={`inline-block mt-1 text-xs px-2 py-1 rounded-full font-medium capitalize ${difficultyColor[selected.difficulty as keyof typeof difficultyColor]}`}>{selected.difficulty}</span>
                 </div>
                 <div className="space-y-4">
-                  <div className="bg-white/5 rounded-xl p-4">
-                    <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Description</p>
-                    <p className="text-sm text-gray-300">{selected.desc}</p>
+                  <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(201,201,214,0.5)' }}>Description</p>
+                    <p className="text-sm" style={{ color: '#C9C9D6' }}>{selected.desc}</p>
                   </div>
-                  <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
-                    <p className="text-xs text-purple-400 uppercase tracking-widest mb-1">Pro Tip</p>
-                    <p className="text-sm text-gray-300">{selected.tips}</p>
+                  <div className="rounded-xl p-4" style={{ background: 'rgba(255,122,24,0.08)', border: '1px solid rgba(255,122,24,0.2)' }}>
+                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: '#FF7A18' }}>💡 Pro Tip</p>
+                    <p className="text-sm" style={{ color: '#C9C9D6' }}>{selected.tips}</p>
                   </div>
-                  <div className="bg-white/5 rounded-xl p-3 flex items-center justify-between">
-                    <span className="text-xs text-gray-500">Category</span>
-                    <span className="text-xs text-purple-300 capitalize">{selected.category}</span>
+                  <div className="rounded-xl p-3 flex items-center justify-between" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                    <span className="text-xs" style={{ color: 'rgba(201,201,214,0.5)' }}>Category</span>
+                    <span className="text-xs capitalize font-medium" style={{ color: '#FF9A50' }}>{selected.category}</span>
                   </div>
                 </div>
               </motion.div>

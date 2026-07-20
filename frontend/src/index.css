@@ -3,12 +3,12 @@
    Theme: Futuristic AI Startup · Glassmorphism · Aurora Background
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* ─── Google Font — must be first ────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* ─── Google Font ─────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 /* ─── CSS Variables ──────────────────────────────────────────────────────── */
 :root {

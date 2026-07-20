@@ -45,16 +45,17 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-4 px-4 flex flex-col">
-      <div className="max-w-3xl mx-auto w-full flex flex-col flex-1">
+    <div className="min-h-screen pt-20 pb-4 px-4 flex flex-col relative overflow-hidden">
+      <div className="glow-orb w-80 h-80 top-20 right-[-60px] opacity-20" style={{ background: 'radial-gradient(circle, rgba(255,77,157,0.5), transparent 70%)' }} />
+      <div className="max-w-3xl mx-auto w-full flex flex-col flex-1 relative z-10">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-9 h-9 rounded-xl bg-purple-600/20 flex items-center justify-center">
-              <RiRobotLine size={18} className="text-purple-400" />
+            <div className="w-10 h-10 rounded-xl icon-aurora flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(255,77,157,0.4)' }}>
+              <RiRobotLine size={18} className="text-white" />
             </div>
             <h1 className="font-display font-bold text-3xl text-white">AI <span className="text-gradient">Sign Assistant</span></h1>
           </div>
-          <p className="text-gray-500 ml-12">Ask anything about sign language, gestures, or how to use Elysia</p>
+          <p className="ml-13" style={{ color: '#C9C9D6' }}>Ask anything about sign language, gestures, or how to use Elysia</p>
         </motion.div>
 
         {/* Messages */}
@@ -62,10 +63,16 @@ export default function ChatPage() {
           {messages.map(msg => (
             <motion.div key={msg.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === 'assistant' ? 'bg-purple-600/30 border border-purple-500/30' : 'bg-white/10 border border-white/10'}`}>
-                {msg.role === 'assistant' ? <RiRobotLine size={14} className="text-purple-400" /> : <RiUserLine size={14} className="text-gray-300" />}
+              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                style={msg.role === 'assistant'
+                  ? { background: 'rgba(255,77,157,0.2)', border: '1px solid rgba(255,77,157,0.3)' }
+                  : { background: 'rgba(255,122,24,0.15)', border: '1px solid rgba(255,122,24,0.25)' }}>
+                {msg.role === 'assistant' ? <RiRobotLine size={14} style={{ color: '#FF4D9D' }} /> : <RiUserLine size={14} style={{ color: '#FF9A50' }} />}
               </div>
-              <div className={`max-w-[80%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${msg.role === 'assistant' ? 'bg-white/5 text-gray-200' : 'bg-purple-600/20 border border-purple-500/20 text-purple-100'}`}>
+              <div className="max-w-[80%] px-4 py-3 rounded-2xl text-sm leading-relaxed"
+                style={msg.role === 'assistant'
+                  ? { background: 'rgba(255,255,255,0.05)', color: '#C9C9D6' }
+                  : { background: 'rgba(255,122,24,0.12)', border: '1px solid rgba(255,122,24,0.2)', color: '#fff' }}>
                 {msg.content}
               </div>
             </motion.div>
@@ -73,11 +80,12 @@ export default function ChatPage() {
           <AnimatePresence>
             {typing && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex gap-3">
-                <div className="w-8 h-8 rounded-full bg-purple-600/30 border border-purple-500/30 flex items-center justify-center flex-shrink-0">
-                  <RiRobotLine size={14} className="text-purple-400" />
+                <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                  style={{ background: 'rgba(255,77,157,0.2)', border: '1px solid rgba(255,77,157,0.3)' }}>
+                  <RiRobotLine size={14} style={{ color: '#FF4D9D' }} />
                 </div>
-                <div className="bg-white/5 rounded-2xl px-4 py-3 flex items-center gap-1.5">
-                  {[0, 1, 2].map(i => <motion.div key={i} className="w-2 h-2 bg-purple-400 rounded-full" animate={{ y: [0, -6, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.15 }} />)}
+                <div className="rounded-2xl px-4 py-3 flex items-center gap-1.5" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                  {[0, 1, 2].map(i => <motion.div key={i} className="w-2 h-2 rounded-full" style={{ background: '#FF4D9D' }} animate={{ y: [0, -6, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.15 }} />)}
                 </div>
               </motion.div>
             )}
@@ -89,7 +97,8 @@ export default function ChatPage() {
         <div className="flex gap-2 flex-wrap mb-3">
           {SUGGESTIONS.map(s => (
             <button key={s} onClick={() => sendMessage(s)}
-              className="text-xs px-3 py-1.5 rounded-full border border-purple-500/20 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 transition-all">
+              className="text-xs px-3 py-1.5 rounded-full transition-all"
+              style={{ border: '1px solid rgba(255,122,24,0.25)', background: 'rgba(255,122,24,0.08)', color: '#FF9A50' }}>
               {s}
             </button>
           ))}
